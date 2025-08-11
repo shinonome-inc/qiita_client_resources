@@ -1,0 +1,28 @@
+name: Flutter CI
+on:
+  push:
+jobs:
+  flutter_ci:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v4
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          flutter-version: 3.29.0   # 必要に応じてFlutterのバージョンを変更してください。
+    # .envを追加した場合は、以下のコメントを外してください。
+    # また、GitHub SecretsにENVの内容を追加してください。
+    #   - name: Generate env
+    #     run: echo "${{ secrets.ENV }}" | base64 --decode > env
+      - name: Install dependencies
+        run: flutter pub get && dart pub get
+    # Build runnerを使用する場合は、以下のコメントを外してください。
+    #   - name: Run build_runner
+    #     run: dart run build_runner build --delete-conflicting-outputs
+      - name: Run flutter analyze
+        run: flutter analyze
