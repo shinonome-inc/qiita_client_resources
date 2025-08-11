@@ -29,7 +29,10 @@ class Tag {
   factory Tag.fromJson(Map<String, dynamic> json) {
     return Tag(
       followersCount: json['followers_count'],
-      iconUrl: json['icon_url'] ?? DefaultImageUrls.tagIcon,
+      iconUrl:
+          json['icon_url'] == null || json['icon_url'].isEmpty
+              ? DefaultImageUrls.tagIcon
+              : json['icon_url'],
       id: json['id'],
       itemsCount: json['items_count'],
     );
